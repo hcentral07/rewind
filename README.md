@@ -6,9 +6,7 @@
 
 <br /><br />
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/hcentral07/rewind/main/rewind-gui/icons/128x128.png" width="300" alt="Rewind logo" />
-</div>
+<img src="https://raw.githubusercontent.com/hcentral07/rewind/main/rewind-gui/icons/128x128.png" width="64" alt="Rewind logo" />
 
 # Rewind
 
