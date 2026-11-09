@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="https://files.catbox.moe/zti00f.webp" width="100%" alt="Rewind banner" />
+<div align="center">
+  <img src="https://files.catbox.moe/zti00f.webp" width="600" alt="Rewind banner" />
+</div>
 
 <br /><br />
 
