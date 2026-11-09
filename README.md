@@ -1,3 +1,11 @@
+<div align="center">
+
+<img src="https://files.catbox.moe/zti00f.webp" width="100%" alt="Rewind banner" />
+
+<br /><br />
+
+<img src="https://raw.githubusercontent.com/hcentral07/rewind/main/rewind-gui/icons/128x128.png" width="96" alt="Rewind logo" />
+
 # Rewind
 
 **A time machine for your filesystem.**
@@ -5,6 +13,10 @@
 Point it at a folder. It snapshots every change. Scrub back through time, diff any version, restore any file.
 
 [Download](#download) | [Features](#features) | [How it works](#how-it-works) | [Build from source](#build-from-source) | [CLI](#cli)
+
+</div>
+
+---
 
 ## Why
 
@@ -51,7 +63,6 @@ The Linux version is built in Python and distributed via PyPI as `rwnd` (the CLI
 
 ```
 pip install rwnd
-
 ```
 
 ## Using it
@@ -77,7 +88,6 @@ rewind status                     Watched folders and storage stats
 rewind log <file>                 Version history of a file
 rewind watch <path>                Watch a folder and snapshot changes (Ctrl+C to stop)
 rewind restore <file> <version>    Roll a file back to a version number from `rewind log`
-
 ```
 
 `status` and `log` also take `--json` for scripting.
@@ -93,7 +103,6 @@ $ rewind log C:\projects\my-app\src\main.rs
 C:\projects\my-app\src\main.rs
 - v2    2026-11-09 19:31:28  +2    -1    16cc68e3  Modified: +2 -1 lines (52 B)
   v1    2026-11-09 19:31:26  +3    -0    9db21cba  Created: 3 lines (33 B)
-
 ```
 
 ## How it works
@@ -113,7 +122,6 @@ rewind/
   .github/workflows/        CI: builds the installer and publishes a Release
   build-installer.ps1       local installer build
   set-logo.ps1              sets the logo and regenerates all icons
-
 ```
 
 2. **Python CLI (Linux/PyPI)**:
@@ -137,10 +145,9 @@ The `RewindCore` struct is the whole product. Both front ends are thin wrappers 
 Rewind/
   rewind.db        SQLite: versions + watches
   blobs/<hash>     file contents, named by blake3 hash
-
 ```
 
-```
+```sql
 CREATE TABLE versions (
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
   path          TEXT    NOT NULL,   -- canonical absolute path
@@ -152,12 +159,11 @@ CREATE TABLE versions (
   summary       TEXT    NOT NULL DEFAULT ''
 );
 CREATE TABLE watches (path TEXT PRIMARY KEY, added_at TEXT NOT NULL);
-
 ```
 
 **Public API** (what the CLI and GUI call):
 
-```
+```rust
 RewindCore::open_default() / open(dir)
 save_version(path)        -> Option<Version>   // None if content unchanged
 get_history(path)          -> Vec<Version>      // newest first
@@ -169,7 +175,6 @@ get_status()              -> Status
 add_watch / remove_watch / list_watches
 start_watcher(path)       -> WatcherHandle     // drop the handle to stop
 start_watcher_with(path, |version| ...)        // callback per new version
-
 ```
 
 **What happens on a save:**
@@ -212,7 +217,7 @@ A [Tauri v2](https://tauri.app) app. There is no JS toolchain: `ui/index.html` i
 | `pick_folder()` | native folder dialog | 
 | `reveal_path(path)` | open Explorer on a file | 
 
-The UI polls every \~2 seconds, which keeps the app free of event-capability plumbing.
+The UI polls every ~2 seconds, which keeps the app free of event-capability plumbing.
 
 ## Build from source
 
@@ -228,38 +233,34 @@ The UI polls every \~2 seconds, which keeps the app free of event-capability plu
 
 ### 2. Build and run (Rust / Windows)
 
-```
+```powershell
 git clone https://github.com/hcentral07/rewind.git
 cd rewind
 
 cargo run -p rewind-cli -- status     # CLI
 cargo run -p rewind-gui               # desktop app
 cargo build --release                 # optimized binaries in target\release
-
 ```
 
 ### 3. Build and run (Python / Linux)
 
-```
+```bash
 cd rewind/python-cli
 pip install -e .
-
 ```
 
 ### 4. Build the installer
 
-```
+```powershell
 .\build-installer.bat
-
 ```
 
 This installs `tauri-cli` once, runs `cargo tauri build`, and puts `Rewind_x.y.z_x64-setup.exe` and the CLI in `dist\`.
 
 ### 5. Set your own logo
 
-```
+```powershell
 .\set-logo.ps1 .\my-logo.png      # or a URL; webp/png/jpg
-
 ```
 
 Writes `rewind-gui\ui\logo.png` (sidebar) and regenerates every icon in `rewind-gui\icons`. Commit both.
@@ -268,10 +269,9 @@ Writes `rewind-gui\ui\logo.png` (sidebar) and regenerates every icon in `rewind-
 
 Pushing a version tag triggers `.github/workflows/release.yml`, which builds on a Windows runner and attaches the installer and CLI to a GitHub Release:
 
-```
+```powershell
 git tag v0.1.0
 git push origin v0.1.0
-
 ```
 
 Bump `version` in the workspace `Cargo.toml` and `rewind-gui/tauri.conf.json` before tagging. In the repo's **Settings > Actions > General**, set workflow permissions to **Read and write**.
@@ -314,11 +314,10 @@ Being upfront about what this is and isn't:
 
 Issues and PRs welcome. Before opening a PR:
 
-```
+```powershell
 cargo fmt --all
 cargo clippy --workspace
 cargo test --workspace
-
 ```
 
 ## License
