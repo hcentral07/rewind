@@ -199,7 +199,7 @@ The UI polls every ~2 seconds, which keeps the app free of event-capability plum
 ### 2. Build and run
 
 ```powershell
-git clone https://github.com/YOUR_USER/rewind.git
+git clone https://github.com/hcentral07/rewind.git
 cd rewind
 
 cargo run -p rewind-cli -- status     # CLI
