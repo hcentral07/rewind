@@ -1,0 +1,21 @@
+[package]
+name = "rewind-gui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+build = "build.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+rewind-core = { path = "../rewind-core" }
+tauri = { version = "2", features = [] }
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+rfd = "0.15"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

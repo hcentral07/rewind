@@ -1,0 +1,49 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install tauri-cli
+        run: cargo install tauri-cli --version "^2" --locked
+
+      - name: Build installer (NSIS setup.exe)
+        working-directory: rewind-gui
+        run: cargo tauri build
+
+      - name: Build CLI
+        run: cargo build --release -p rewind-cli
+
+      - name: Stage files
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item target/release/bundle/nsis/*-setup.exe dist/
+          Copy-Item target/release/rewind.exe dist/rewind-cli-windows-x64.exe
+          Get-ChildItem dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rewind-windows
+          path: dist/*
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
