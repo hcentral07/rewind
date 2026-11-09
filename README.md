@@ -4,7 +4,7 @@
 
 <br /><br />
 
-<img src="https://raw.githubusercontent.com/hcentral07/rewind/main/rewind-gui/icons/128x128.png" width="96" alt="Rewind logo" />
+<img src="https://raw.githubusercontent.com/hcentral07/rewind/main/rewind-gui/icons/128x128.png" width="64" alt="Rewind logo" />
 
 # Rewind
 
