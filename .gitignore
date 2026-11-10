@@ -1,3 +1,15 @@
 /target
-Cargo.lock.bak
 dist/
+Cargo.lock.bak
+
+# tauri generated
+/rewind-gui/gen/
+
+# python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+
+# ui build tooling (built files in rewind-gui/ui ARE committed)
+node_modules/

@@ -34,6 +34,17 @@ jobs:
           New-Item -ItemType Directory -Force dist | Out-Null
           Copy-Item target/release/bundle/nsis/*-setup.exe dist/
           Copy-Item target/release/rewind.exe dist/rewind-cli-windows-x64.exe
+          # checksum the updater verifies before it runs a download
+          Get-ChildItem dist/*-setup.exe | ForEach-Object {
+            $h = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
+            "$h  $($_.Name)" | Set-Content -NoNewline "dist/$($_.Name).sha256"
+          }
+          # "full zip" = installer + CLI + checksum + license
+          $ver = "${{ github.ref_name }}"
+          Copy-Item LICENSE dist/
+          Compress-Archive -Path dist/* -DestinationPath "Rewind-$ver-full.zip"
+          Move-Item "Rewind-$ver-full.zip" dist/
+          Remove-Item dist/LICENSE
           Get-ChildItem dist
 
       - uses: actions/upload-artifact@v4

@@ -24,7 +24,7 @@ Point it at a folder. It snapshots every change. Scrub back through time, diff a
 
 Git only remembers what you commit. Editors only undo what's in the buffer. Rewind watches the folder itself, so the version you overwrote at 2 AM, the file you saved over by accident, and the config you "just tweaked" are all still there.
 
-Everything stays on your machine. No account, no cloud, no telemetry.
+Everything stays on your machine. No account, no cloud. The only network use is checking GitHub for updates and, only if you opt in, one anonymous ping a day (random ID, version, OS) so the author can count installs.
 
 ## Features
 
@@ -67,6 +67,16 @@ The Linux version is built in Python and distributed via PyPI as `rwnd` (the CLI
 pip install rwnd
 ```
 
+## What's new in 0.2
+
+* **Always on.** Tray icon, optional start with Windows (hidden), and the watcher keeps running when the window is closed. A second launch just wakes the running copy.
+* **Delete and rename tracking.** Deleted files land in a recycle-bin-for-everything; renamed files and folders keep their history.
+* **Folder rewind.** Put a whole folder back to a time or a named label. A "before" label is saved first, so it can be undone.
+* **Pins and labels.** Pinned versions are never pruned; labels name moments like "before mod install".
+* **History search**, **compare any two versions**, and a **disk space guard** (warns, or auto-prunes if you turn that on).
+* **Plugins.** Each of the features above is a plugin you can switch off. See [docs/PLUGINS.md](docs/PLUGINS.md).
+* **Tools button** (bottom-right in the app) opens all of it. CLI: `search`, `deleted`, `pin`, `label`, `rewind-folder`, `compare`.
+
 ## Using it
 
 1. Open Rewind.
@@ -90,6 +100,11 @@ rewind status                     Watched folders and storage stats
 rewind log <file>                 Version history of a file
 rewind watch <path>                Watch a folder and snapshot changes (Ctrl+C to stop)
 rewind restore <file> <version>    Roll a file back to a version number from `rewind log`
+rewind diff <file> [version]       What a version changed vs the one before it (default: newest)
+rewind prune [--keep N] [--older-than DAYS]
+                                   Delete old history. Keeps the newest N versions per file
+                                   (default 50); with --older-than, only versions that are
+                                   also older than DAYS are removed. Unused blobs are freed.
 ```
 
 `status` and `log` also take `--json` for scripting.
@@ -119,15 +134,17 @@ rewind/
   rewind-core/              the engine (library)
   rewind-cli/               the `rewind` binary (clap)
   rewind-gui/               desktop app (Tauri v2)
-    ui/index.html           React + Tailwind via CDN, no build step
+    ui/                     prebuilt, fully offline UI (React + Tailwind, committed)
+    ui-src/                 UI source (app.jsx) + build script, only needed to edit the UI
     tauri.conf.json
-  .github/workflows/        CI: builds the installer and publishes a Release
+  rewind-py/                Python port (watchdog + sqlite3 + rich)
+  .github/workflows/        ci.yml (fmt, clippy, tests) and release.yml (installer + Release)
   build-installer.ps1       local installer build
   set-logo.ps1              sets the logo and regenerates all icons
 ```
 
 2. **Python CLI (Linux/PyPI)**:
-   Located in `python-cli/`, published as `rwnd` using `watchdog`, `sqlite3`, and `rich`.
+   Located in `rewind-py/`, published as `rwnd` using `watchdog`, `sqlite3`, and `rich`.
 
 ### rewind-core
 
@@ -205,7 +222,7 @@ A [`clap`](https://crates.io/crates/clap) derive app. `watch` runs the watcher a
 
 ### rewind-gui
 
-A [Tauri v2](https://tauri.app) app. There is no JS toolchain: `ui/index.html` is a single file using React 18, Babel standalone and Tailwind from CDNs, loaded into the system WebView2. The Rust side exposes commands:
+A [Tauri v2](https://tauri.app) app. The UI is plain files in `rewind-gui/ui/` (React 18 and a compiled Tailwind stylesheet, all vendored, no CDN), loaded into the system WebView2 under a strict Content-Security-Policy, so it works fully offline. You never need Node to build or run the app. Only if you edit `ui-src/app.jsx`: `cd rewind-gui/ui-src && npm install && npm run build`, then commit the regenerated files. The Rust side exposes commands:
 
 | Command | Does | 
 | ----- | ----- | 
@@ -247,7 +264,7 @@ cargo build --release                 # optimized binaries in target\release
 ### 3. Build and run (Python / Linux)
 
 ```bash
-cd rewind/python-cli
+cd rewind/rewind-py
 pip install -e .
 ```
 
@@ -294,17 +311,17 @@ Being upfront about what this is and isn't:
 
 * **GUI is Windows-only.** The GUI targets Windows 11; Linux users use the Python `rwnd` CLI.
 
-* **The UI needs internet on first paint** because React, Babel and Tailwind load from CDNs.
+* **Version numbers shift after a prune.** `v6` may become `v2` once older versions are deleted. `rewind log` always shows the current numbers.
 
 ## Roadmap
 
-* Retention policies and a "prune old versions" command
+The full plan, including the plugin system design and ideas, is in [ROADMAP.md](ROADMAP.md).
+
+* Automatic retention policy (prune on a schedule, per-folder rules)
 
 * Rename and delete tracking
 
 * Folder-level restore ("rewind this whole folder to 2 hours ago")
-
-* Bundle the UI assets locally for fully offline use
 
 * Per-folder ignore rules
 

@@ -10,11 +10,17 @@ tauri-build = { version = "2", features = [] }
 
 [dependencies]
 rewind-core = { path = "../rewind-core" }
-tauri = { version = "2", features = [] }
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-single-instance = "2"
 serde.workspace = true
 serde_json.workspace = true
 anyhow.workspace = true
 rfd = "0.15"
+ureq = { version = "2", features = ["json"] }
+semver = "1"
+sha2 = "0.10"
+chrono.workspace = true
+uuid.workspace = true
 
 [features]
 default = ["custom-protocol"]
