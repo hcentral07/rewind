@@ -17,7 +17,7 @@ pub const STATS_URL: &str = "";
 
 const MAX_DOWNLOAD: u64 = 300 * 1024 * 1024;
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateInfo {
     pub version: String,
     pub notes: String,
