@@ -1,7 +1,9 @@
 <div align="center">
 
 <div align="center">
-<video src="https://files.catbox.moe/oxjs9m.webm" width="600" autoplay loop muted playsinline alt="Rewind banner"></video>
+  <video src="https://files.catbox.moe/oxjs9m.webm" width="600" autoplay loop muted playsinline>
+    <source src="https://files.catbox.moe/oxjs9m.webm" type="video/webm">
+  </video>
 </div>
 
 <br /><br />
