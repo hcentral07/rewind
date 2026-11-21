@@ -207,12 +207,40 @@ impl RewindCore {
     }
 
     /// (exact stored path, hash of newest version) for a path, ignoring case.
+    /// (exact stored path, hash of newest version) for a path, ignoring case.
+    ///
+    /// Also matches the *tail* of a stored path, because a removed path (which no longer
+    /// exists on disk) cannot be canonicalized — `key_for` falls back to the raw string,
+    /// which will not equal the canonical path stored when the file existed.
     fn latest_for_path(&self, key: &str) -> Option<(String, String)> {
-        self.db()
+        // 1) exact match (works when the path still resolves)
+        if let Some(hit) = self
+            .db()
             .query_row(
                 "SELECT path, hash FROM versions WHERE path = ?1 COLLATE NOCASE
                  ORDER BY id DESC LIMIT 1",
                 params![key],
+                |r| Ok((r.get::<_, String>(0)?, r.get::<_, String>(1)?)),
+            )
+            .optional()
+            .ok()
+            .flatten()
+        {
+            return Some(hit);
+        }
+
+        // 2) suffix match on the file name (handles removed / non-canonicalizable paths)
+        let fname = Path::new(key)
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string());
+        let Some(fname) = fname else { return None };
+        let like = format!("%{sep}{fname}", sep = if cfg!(windows) { '\\' } else { '/' });
+        self.db()
+            .query_row(
+                "SELECT path, hash FROM versions
+                 WHERE path LIKE ?1 COLLATE NOCASE
+                 ORDER BY id DESC LIMIT 1",
+                params![like],
                 |r| Ok((r.get::<_, String>(0)?, r.get::<_, String>(1)?)),
             )
             .optional()
