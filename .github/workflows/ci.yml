@@ -7,7 +7,11 @@ on:
 
 jobs:
   core:
+<<<<<<< HEAD
     name: fmt, clippy, tests (core + cli, Linux)
+=======
+    name: fmt, clippy, tests (core + cli)
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +23,7 @@ jobs:
       - run: cargo clippy -p rewind-core -p rewind-cli --all-targets -- -D warnings
       - run: cargo test -p rewind-core -p rewind-cli
 
+<<<<<<< HEAD
   gui-linux:
     name: desktop app builds on Linux
     runs-on: ubuntu-22.04
@@ -31,6 +36,8 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libgtk-3-dev libssl-dev patchelf
       - run: cargo check -p rewind-gui --all-targets
 
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
   windows:
     name: build everything on Windows
     runs-on: windows-latest
@@ -39,6 +46,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo check --workspace --all-targets
+<<<<<<< HEAD
 
   windows-tests:
     name: tests on Windows (informational)
@@ -49,3 +57,5 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo test -p rewind-core -p rewind-cli
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

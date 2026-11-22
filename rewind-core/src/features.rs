@@ -111,7 +111,11 @@ pub fn parse_when(input: &str) -> Result<DateTime<Utc>> {
     ))
 }
 
+<<<<<<< HEAD
 pub(crate) fn parse_ts(s: &str) -> Option<DateTime<Utc>> {
+=======
+fn parse_ts(s: &str) -> Option<DateTime<Utc>> {
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     DateTime::parse_from_rfc3339(s)
         .ok()
         .map(|t| t.with_timezone(&Utc))
@@ -152,7 +156,11 @@ impl RewindCore {
         );
     }
 
+<<<<<<< HEAD
     pub(crate) fn log_deleted(&self, path: &str) {
+=======
+    fn log_deleted(&self, path: &str) {
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         let already: bool = self
             .db()
             .query_row(
@@ -207,8 +215,20 @@ impl RewindCore {
     }
 
     /// (exact stored path, hash of newest version) for a path, ignoring case.
+<<<<<<< HEAD
     fn latest_for_path(&self, key: &str) -> Option<(String, String)> {
         self.db()
+=======
+    /// (exact stored path, hash of newest version) for a path, ignoring case.
+    ///
+    /// Also matches the *tail* of a stored path, because a removed path (which no longer
+    /// exists on disk) cannot be canonicalized — `key_for` falls back to the raw string,
+    /// which will not equal the canonical path stored when the file existed.
+    fn latest_for_path(&self, key: &str) -> Option<(String, String)> {
+        // 1) exact match (works when the path still resolves)
+        if let Some(hit) = self
+            .db()
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             .query_row(
                 "SELECT path, hash FROM versions WHERE path = ?1 COLLATE NOCASE
                  ORDER BY id DESC LIMIT 1",
@@ -218,6 +238,30 @@ impl RewindCore {
             .optional()
             .ok()
             .flatten()
+<<<<<<< HEAD
+=======
+        {
+            return Some(hit);
+        }
+
+        // 2) suffix match on the file name (handles removed / non-canonicalizable paths)
+        let fname = Path::new(key)
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string());
+        let Some(fname) = fname else { return None };
+        let like = format!("%{sep}{fname}", sep = if cfg!(windows) { '\\' } else { '/' });
+        self.db()
+            .query_row(
+                "SELECT path, hash FROM versions
+                 WHERE path LIKE ?1 COLLATE NOCASE
+                 ORDER BY id DESC LIMIT 1",
+                params![like],
+                |r| Ok((r.get::<_, String>(0)?, r.get::<_, String>(1)?)),
+            )
+            .optional()
+            .ok()
+            .flatten()
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     }
 
     fn rename_path(&self, old: &str, new: &str) {
@@ -465,11 +509,15 @@ impl RewindCore {
             .collect::<rusqlite::Result<Vec<_>>>()?;
         Ok(all
             .into_iter()
+<<<<<<< HEAD
             .filter(|l| {
                 key.as_ref()
                     .map(|k| in_folder(&l.folder, k))
                     .unwrap_or(true)
             })
+=======
+            .filter(|l| key.as_ref().map(|k| in_folder(&l.folder, k)).unwrap_or(true))
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             .collect())
     }
 
@@ -487,8 +535,13 @@ impl RewindCore {
         let key = normalize_path(folder)?;
         let rows: Vec<(i64, String, String, String)> = {
             let conn = self.db();
+<<<<<<< HEAD
             let mut stmt =
                 conn.prepare("SELECT id, path, hash, created_at FROM versions ORDER BY path, id")?;
+=======
+            let mut stmt = conn
+                .prepare("SELECT id, path, hash, created_at FROM versions ORDER BY path, id")?;
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             let rows = stmt
                 .query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?)))?
                 .collect::<rusqlite::Result<Vec<_>>>()?;
@@ -639,7 +692,10 @@ impl RewindCore {
 
     /// Find versions whose content contains `query` (case-insensitive). Each distinct
     /// content is reported once, newest first.
+<<<<<<< HEAD
     #[allow(clippy::type_complexity)]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     pub fn search_history(
         &self,
         query: &str,
@@ -651,10 +707,14 @@ impl RewindCore {
             return Err(anyhow!("type something to search for"));
         }
         let key = folder.map(|f| key_for(Path::new(f)));
+<<<<<<< HEAD
         let (rows, latest): (
             Vec<(i64, String, String, String, i64)>,
             HashMap<String, String>,
         ) = {
+=======
+        let (rows, latest): (Vec<(i64, String, String, String, i64)>, HashMap<String, String>) = {
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             let conn = self.db();
             let mut stmt = conn.prepare(
                 "SELECT id, path, hash, created_at, size FROM versions ORDER BY id DESC",
@@ -868,7 +928,11 @@ mod tests {
         fs::write(&a, "hello\n").unwrap();
         core.save_version(&a).unwrap();
         fs::rename(&a, &b).unwrap();
+<<<<<<< HEAD
         let renamed = core.detect_renames(std::slice::from_ref(&a), std::slice::from_ref(&b));
+=======
+        let renamed = core.detect_renames(&[a.clone()], &[b.clone()]);
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         assert_eq!(renamed.len(), 1);
         assert_eq!(core.get_history(&b).unwrap().len(), 1);
     }

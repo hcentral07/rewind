@@ -333,12 +333,15 @@ checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
 name = "base64"
+<<<<<<< HEAD
 version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
 name = "base64"
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac07cdecf99051d9a5238b80f35af32cdeba5b336e55d957b318b50137e18da5"
@@ -622,6 +625,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "clap_complete"
 version = "4.6.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -631,6 +635,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "clap_derive"
 version = "4.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1438,6 +1444,7 @@ dependencies = [
 
 [[package]]
 name = "getrandom"
+<<<<<<< HEAD
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0"
@@ -1449,6 +1456,8 @@ dependencies = [
 
 [[package]]
 name = "getrandom"
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
@@ -3145,12 +3154,19 @@ dependencies = [
 
 [[package]]
 name = "rewind-cli"
+<<<<<<< HEAD
 version = "0.3.0"
+=======
+version = "0.1.0"
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 dependencies = [
  "anyhow",
  "chrono",
  "clap",
+<<<<<<< HEAD
  "clap_complete",
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
  "rewind-core",
  "serde_json",
  "tokio",
@@ -3158,7 +3174,11 @@ dependencies = [
 
 [[package]]
 name = "rewind-core"
+<<<<<<< HEAD
 version = "0.3.0"
+=======
+version = "0.1.0"
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 dependencies = [
  "anyhow",
  "blake3",
@@ -3166,13 +3186,17 @@ dependencies = [
  "notify",
  "rusqlite",
  "serde",
+<<<<<<< HEAD
  "serde_json",
  "toml 0.8.2",
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
  "uuid",
 ]
 
 [[package]]
 name = "rewind-gui"
+<<<<<<< HEAD
 version = "0.3.0"
 dependencies = [
  "anyhow",
@@ -3188,6 +3212,17 @@ dependencies = [
  "tauri-plugin-single-instance",
  "ureq",
  "uuid",
+=======
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rewind-core",
+ "rfd",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 ]
 
 [[package]]
@@ -3215,6 +3250,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "ring"
 version = "0.17.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3229,6 +3265,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "rusqlite"
 version = "0.32.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3271,6 +3309,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "rustls"
 version = "0.23.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3306,6 +3345,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "rustversion"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3723,12 +3764,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
+<<<<<<< HEAD
 name = "subtle"
 version = "2.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "swift-rs"
 version = "1.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3977,6 +4021,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "tauri-plugin-single-instance"
 version = "2.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3993,6 +4038,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "tauri-runtime"
 version = "2.12.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4476,6 +4523,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6f5d3c3b1bf09027a88a6bc961fc00497d651009560b5463668dc81b0fa87a8"
 
 [[package]]
+<<<<<<< HEAD
 name = "untrusted"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4500,6 +4548,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "url"
 version = "2.5.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4840,6 +4890,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "webpki-roots"
 version = "0.26.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4858,6 +4909,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "webview2-com"
 version = "0.39.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5059,6 +5112,7 @@ dependencies = [
 
 [[package]]
 name = "windows-sys"
+<<<<<<< HEAD
 version = "0.52.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
@@ -5068,6 +5122,8 @@ dependencies = [
 
 [[package]]
 name = "windows-sys"
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 version = "0.59.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e38bc4d79ed67fd075bcc251a1c39b32a1776bbe92e5bef1f0bf1f8c531853b"
@@ -5519,12 +5575,15 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "zeroize"
 version = "1.9.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "85ccff8a4805aba1eaa4cd4afcd49f7557dd2cf5fd79ffc37f8959466effc5aa"
 
 [[package]]
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "zerotrie"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"

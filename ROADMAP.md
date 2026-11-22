@@ -10,6 +10,7 @@ The way to grow without turning into a pile of unrelated features is to make tho
 
 ---
 
+<<<<<<< HEAD
 ## Status (v0.3)
 
 Done: tray + autostart, delete/rename tracking, folder rewind, pins and labels, search, compare, disk guard, **rule and program plugins, AI agent
@@ -27,6 +28,8 @@ Next, in order of value:
 
 ---
 
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 ## 1. Fix the foundations first
 
 These are gaps in the current app. Plugins built on a shaky base will inherit them.

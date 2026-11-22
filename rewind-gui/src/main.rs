@@ -4,9 +4,14 @@ mod settings;
 mod updater;
 
 use rewind_core::{
+<<<<<<< HEAD
     AgentReport, AgentRun, Alert, ApplyReport, DeletedEntry, DiffLine, FileEntry, GuardStatus,
     Label, PluginInfo, PruneReport, RewindCore, RewindPlan, SchedulerHandle, SearchHit, Status,
     TripwireConfig, Version, WatcherHandle,
+=======
+    ApplyReport, DeletedEntry, DiffLine, FileEntry, GuardStatus, Label, PluginInfo, PruneReport,
+    RewindCore, RewindPlan, SearchHit, Status, Version, WatcherHandle,
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 };
 use std::collections::HashMap;
 use std::sync::Mutex;
@@ -17,6 +22,7 @@ use tauri::{Manager, State};
 struct AppState {
     core: RewindCore,
     watchers: Mutex<HashMap<String, WatcherHandle>>,
+<<<<<<< HEAD
     /// File or folder handed over by the right-click entry, waiting for the UI to pick it up.
     launch: Mutex<Option<String>>,
     /// Keeps the plugin scheduler running while the app is open.
@@ -32,6 +38,10 @@ fn ensure_watch(state: &AppState, path: &str) -> Result<String, String> {
         watchers.insert(key.clone(), handle);
     }
     Ok(key)
+=======
+    /// File handed over by the Explorer right-click entry, waiting for the UI to pick it up.
+    launch: Mutex<Option<String>>,
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 }
 
 fn err<E: std::fmt::Display>(e: E) -> String {
@@ -82,7 +92,11 @@ fn restore_version(version_id: i64, state: State<'_, AppState>) -> Result<Versio
     state.core.restore_version(version_id).map_err(err)
 }
 
+<<<<<<< HEAD
 /// Show a file in the system file manager.
+=======
+/// Show a file in Windows Explorer.
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 #[tauri::command]
 fn reveal_path(path: String) -> Result<(), String> {
     #[cfg(windows)]
@@ -93,6 +107,7 @@ fn reveal_path(path: String) -> Result<(), String> {
             .spawn()
             .map_err(err)?;
     }
+<<<<<<< HEAD
     #[cfg(target_os = "macos")]
     {
         std::process::Command::new("open")
@@ -112,6 +127,11 @@ fn reveal_path(path: String) -> Result<(), String> {
             .arg(dir)
             .spawn()
             .map_err(err)?;
+=======
+    #[cfg(not(windows))]
+    {
+        let _ = &path;
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     }
     Ok(())
 }
@@ -204,7 +224,14 @@ fn add_label(folder: String, name: String, state: State<'_, AppState>) -> Result
 }
 
 #[tauri::command]
+<<<<<<< HEAD
 fn list_labels(folder: Option<String>, state: State<'_, AppState>) -> Result<Vec<Label>, String> {
+=======
+fn list_labels(
+    folder: Option<String>,
+    state: State<'_, AppState>,
+) -> Result<Vec<Label>, String> {
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     state.core.list_labels(folder.as_deref()).map_err(err)
 }
 
@@ -274,7 +301,11 @@ fn guard_prune_now(state: State<'_, AppState>) -> Result<PruneReport, String> {
     state.core.shrink_store(limit).map_err(err)
 }
 
+<<<<<<< HEAD
 /// Switch "start with the computer" (hidden, in the tray) on or off.
+=======
+/// Switch "start with Windows" (hidden, in the tray) on or off.
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 #[tauri::command]
 fn set_autostart(enabled: bool, state: State<'_, AppState>) -> Result<(), String> {
     set_autostart_registry(enabled)?;
@@ -296,6 +327,7 @@ fn set_autostart_registry(enabled: bool) -> Result<(), String> {
         if enabled {
             let exe = std::env::current_exe().map_err(err)?;
             let value = format!("\"{}\" --background", exe.display());
+<<<<<<< HEAD
             cmd.args([
                 "add",
                 key,
@@ -307,6 +339,9 @@ fn set_autostart_registry(enabled: bool) -> Result<(), String> {
                 value.as_str(),
                 "/f",
             ]);
+=======
+            cmd.args(["add", key, "/v", "Rewind", "/t", "REG_SZ", "/d", value.as_str(), "/f"]);
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         } else {
             cmd.args(["delete", key, "/v", "Rewind", "/f"]);
         }
@@ -315,6 +350,7 @@ fn set_autostart_registry(enabled: bool) -> Result<(), String> {
             return Err("could not write the startup entry".into());
         }
     }
+<<<<<<< HEAD
     #[cfg(all(unix, not(target_os = "macos")))]
     {
         let dir = std::env::var_os("XDG_CONFIG_HOME")
@@ -339,12 +375,16 @@ fn set_autostart_registry(enabled: bool) -> Result<(), String> {
         }
     }
     #[cfg(target_os = "macos")]
+=======
+    #[cfg(not(windows))]
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     {
         let _ = enabled;
     }
     Ok(())
 }
 
+<<<<<<< HEAD
 // ---- v0.3: protection, agents, plugins, right-click menu ---------------------------
 
 #[tauri::command]
@@ -511,6 +551,8 @@ fn set_shell_integration(enabled: bool) -> Result<Vec<String>, String> {
     }
 }
 
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 fn show_main(app: &tauri::AppHandle) {
     if let Some(w) = app.get_webview_window("main") {
         let _ = w.show();
@@ -546,7 +588,11 @@ fn startup_tasks(dir: std::path::PathBuf) {
     if !s.asked_autostart {
         s.autostart = yes(
             "Rewind",
+<<<<<<< HEAD
             "Start Rewind when you log in?\n\nIt runs quietly in the tray so every change is recorded, even when the window is closed. You can change this later.",
+=======
+            "Start Rewind with Windows?\n\nIt runs quietly in the tray so every change is recorded, even when the window is closed. You can change this later.",
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             MessageLevel::Info,
             MessageButtons::YesNo,
         );
@@ -573,12 +619,16 @@ fn startup_tasks(dir: std::path::PathBuf) {
             info.version,
             updater::CURRENT
         );
+<<<<<<< HEAD
         yes(
             "Update available",
             &msg,
             MessageLevel::Info,
             MessageButtons::YesNo,
         )
+=======
+        yes("Update available", &msg, MessageLevel::Info, MessageButtons::YesNo)
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     };
 
     if go {
@@ -616,6 +666,7 @@ async fn pick_folder() -> Option<String> {
 fn main() {
     let core = RewindCore::open_default().expect("failed to open the Rewind database");
 
+<<<<<<< HEAD
     // a tripwire alert gets a native popup, even when the window is hidden in the tray
     core.set_alert_handler(|a: &Alert| {
         if a.kind != "tripwire" {
@@ -635,6 +686,8 @@ fn main() {
     });
     let scheduler = core.start_scheduler();
 
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     // resume every folder that was being watched last time
     let mut watchers = HashMap::new();
     for path in core.list_watches().unwrap_or_default() {
@@ -649,17 +702,25 @@ fn main() {
     let launch = {
         let args: Vec<String> = std::env::args().collect();
         args.iter()
+<<<<<<< HEAD
             .position(|a| a == "--rewind-file" || a == "--rewind-folder")
+=======
+            .position(|a| a == "--rewind-file")
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             .and_then(|i| args.get(i + 1).cloned())
     };
 
     tauri::Builder::default()
         // a second launch (double click, right-click entry) wakes the running copy instead
         .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+<<<<<<< HEAD
             if let Some(i) = args
                 .iter()
                 .position(|a| a == "--rewind-file" || a == "--rewind-folder")
             {
+=======
+            if let Some(i) = args.iter().position(|a| a == "--rewind-file") {
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
                 if let Some(p) = args.get(i + 1) {
                     *app.state::<AppState>()
                         .launch
@@ -671,8 +732,12 @@ fn main() {
         }))
         .setup(move |app| {
             let show = MenuItem::with_id(app, "show", "Open Rewind", true, None::<&str>)?;
+<<<<<<< HEAD
             let quit =
                 MenuItem::with_id(app, "quit", "Quit (stops recording)", true, None::<&str>)?;
+=======
+            let quit = MenuItem::with_id(app, "quit", "Quit (stops recording)", true, None::<&str>)?;
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             let menu = Menu::with_items(app, &[&show, &quit])?;
             let mut tray = TrayIconBuilder::new()
                 .tooltip("Rewind is recording changes")
@@ -717,7 +782,10 @@ fn main() {
             core,
             watchers: Mutex::new(watchers),
             launch: Mutex::new(launch),
+<<<<<<< HEAD
             _scheduler: scheduler,
+=======
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         })
         .invoke_handler(tauri::generate_handler![
             get_status,
@@ -751,6 +819,7 @@ fn main() {
             cfg_set,
             guard_status,
             guard_prune_now,
+<<<<<<< HEAD
             set_autostart,
             path_is_dir,
             list_alerts,
@@ -774,6 +843,9 @@ fn main() {
             run_plugin_schedules_now,
             get_shell_status,
             set_shell_integration
+=======
+            set_autostart
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         ])
         .run(tauri::generate_context!())
         .expect("error while running Rewind");

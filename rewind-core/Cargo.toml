@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 [package]
+=======
+﻿[package]
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 name = "rewind-core"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
+<<<<<<< HEAD
+=======
+serde_json.workspace = true
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 serde.workspace = true
 chrono.workspace = true
 uuid.workspace = true
@@ -12,5 +20,9 @@ anyhow.workspace = true
 rusqlite = { version = "0.32", features = ["bundled"] }
 blake3 = "1"
 notify = "6"
+<<<<<<< HEAD
 toml.workspace = true
 serde_json.workspace = true
+=======
+
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

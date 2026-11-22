@@ -13,7 +13,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+<<<<<<< HEAD
       - uses: dtolnay/rust-toolchain@stable
+=======
+
+      - uses: dtolnay/rust-toolchain@stable
+
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
       - uses: Swatinem/rust-cache@v2
 
       - name: Install tauri-cli
@@ -32,6 +38,7 @@ jobs:
           New-Item -ItemType Directory -Force dist | Out-Null
           Copy-Item target/release/bundle/nsis/*-setup.exe dist/
           Copy-Item target/release/rewind.exe dist/rewind-cli-windows-x64.exe
+<<<<<<< HEAD
           # checksums: the in-app updater verifies <setup>.sha256 before it runs a download
           Get-ChildItem dist/* | ForEach-Object {
             $h = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
@@ -43,6 +50,19 @@ jobs:
           Compress-Archive -Path dist/* -DestinationPath "Rewind-$ver-full.zip"
           Remove-Item dist/LICENSE
           Move-Item "Rewind-$ver-full.zip" dist/
+=======
+          # checksum the updater verifies before it runs a download
+          Get-ChildItem dist/*-setup.exe | ForEach-Object {
+            $h = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
+            "$h  $($_.Name)" | Set-Content -NoNewline "dist/$($_.Name).sha256"
+          }
+          # "full zip" = installer + CLI + checksum + license
+          $ver = "${{ github.ref_name }}"
+          Copy-Item LICENSE dist/
+          Compress-Archive -Path dist/* -DestinationPath "Rewind-$ver-full.zip"
+          Move-Item "Rewind-$ver-full.zip" dist/
+          Remove-Item dist/LICENSE
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
           Get-ChildItem dist
 
       - uses: actions/upload-artifact@v4
@@ -50,6 +70,7 @@ jobs:
           name: rewind-windows
           path: dist/*
 
+<<<<<<< HEAD
   linux:
     # Ubuntu 22.04 keeps the binaries runnable on older distributions (older glibc)
     runs-on: ubuntu-22.04
@@ -123,3 +144,11 @@ jobs:
         with:
           files: dist/*
           body_path: release-notes.md
+=======
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+>>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
