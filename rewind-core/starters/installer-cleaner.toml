@@ -1,0 +1,14 @@
+id = "installer-cleaner"
+name = "Installer Cleaner"
+description = "Once a day, removes installers (.exe, .msi, .dmg, .deb, .rpm, .AppImage) from Downloads that are more than 30 days old. Small files stay in Rewind history; big ones go to Rewind's trash for 30 days."
+version = "1.0.0"
+
+[permissions]
+folders = ["~/Downloads"]
+
+[[rule]]
+when = "schedule"
+every = "1d"
+match = ["*.exe", "*.msi", "*.dmg", "*.deb", "*.rpm", "*.appimage"]
+older_than = "30d"
+do = { delete = true }

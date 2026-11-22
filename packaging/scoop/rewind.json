@@ -1,0 +1,21 @@
+{
+    "version": "0.3.0",
+    "description": "Undo for your files, AI agents and ransomware. Command-line time machine for your filesystem.",
+    "homepage": "https://github.com/hcentral07/rewind",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/hcentral07/rewind/releases/download/v0.3.0/rewind-cli-windows-x64.exe#/rewind.exe",
+            "hash": "FILL-WITH-SHA256-OF-rewind-cli-windows-x64.exe"
+        }
+    },
+    "bin": "rewind.exe",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/hcentral07/rewind/releases/download/v$version/rewind-cli-windows-x64.exe#/rewind.exe"
+            }
+        }
+    }
+}

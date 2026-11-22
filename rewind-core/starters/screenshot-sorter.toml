@@ -1,0 +1,12 @@
+id = "screenshot-sorter"
+name = "Screenshot Sorter"
+description = "Files new screenshots into Year-Month folders inside Pictures/Screenshots."
+version = "1.0.0"
+
+[permissions]
+folders = ["~/Pictures/Screenshots"]
+
+[[rule]]
+when = "file.created"
+match = ["Screenshot*", "Screen Shot*", "Screen_Shot*"]
+do = { move = "~/Pictures/Screenshots/{year}-{month}" }

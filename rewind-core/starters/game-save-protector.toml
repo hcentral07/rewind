@@ -1,0 +1,12 @@
+id = "game-save-protector"
+name = "Game Save Protector"
+description = "Saves a labelled checkpoint of your game save folders every 6 hours, so a corrupted save or a broken mod never costs you your progress. Edit the folder list to add your games."
+version = "1.0.0"
+
+[permissions]
+folders = ["~/Documents/My Games", "~/Saved Games"]
+
+[[rule]]
+when = "schedule"
+every = "6h"
+do = { label = "Auto checkpoint (game saves)" }

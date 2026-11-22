@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+PackageIdentifier: hcentral07.Rewind
+PackageVersion: 0.3.0
+PackageLocale: en-US
+Publisher: hcentral07
+PublisherUrl: https://github.com/hcentral07
+PublisherSupportUrl: https://github.com/hcentral07/rewind/issues
+PackageName: Rewind
+PackageUrl: https://github.com/hcentral07/rewind
+License: MIT
+LicenseUrl: https://github.com/hcentral07/rewind/blob/main/LICENSE
+ShortDescription: Undo for your files, AI agents and ransomware. A time machine for your filesystem.
+Description: |-
+  Rewind watches the folders you choose and keeps every version of every file. Scrub back through time, diff and restore any version,
+  bring back deleted files, rewind a whole folder, undo an entire AI coding agent session, get alerted (and protected) when many
+  files change at once, and automate with plugins. Everything stays on your machine.
+Moniker: rewind
+Tags:
+- backup
+- file-history
+- version-history
+- undo
+- time-machine
+- file-recovery
+- ransomware
+- ai
+- developer-tools
+ReleaseNotesUrl: https://github.com/hcentral07/rewind/releases/tag/v0.3.0
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

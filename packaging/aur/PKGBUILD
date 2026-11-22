@@ -1,0 +1,18 @@
+# Maintainer: hcentral07
+pkgname=rewind-bin
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="Undo for your files, AI agents and ransomware: a time machine for your filesystem (CLI)"
+arch=('x86_64')
+url="https://github.com/hcentral07/rewind"
+license=('MIT')
+provides=('rewind')
+conflicts=('rewind')
+source=("rewind-${pkgver}-x86_64.tar.gz::${url}/releases/download/v${pkgver}/rewind-linux-x86_64.tar.gz")
+# replace SKIP with the value from the release's rewind-linux-x86_64.tar.gz.sha256 before submitting to the AUR
+sha256sums=('SKIP')
+
+package() {
+  install -Dm755 "${srcdir}/rewind" "${pkgdir}/usr/bin/rewind"
+  install -Dm644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

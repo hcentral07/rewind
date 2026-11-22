@@ -1,0 +1,32 @@
+id = "downloads-organizer"
+name = "Downloads Organizer"
+description = "Sorts new downloads into Documents, Pictures, Archives, Audio and Video sub-folders so Downloads stays tidy."
+version = "1.0.0"
+
+[permissions]
+folders = ["~/Downloads"]
+
+[[rule]]
+when = "file.created"
+match = ["*.pdf", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx", "*.txt", "*.odt", "*.ods", "*.csv", "*.epub"]
+do = { move = "~/Downloads/Documents" }
+
+[[rule]]
+when = "file.created"
+match = ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.webp", "*.heic", "*.svg"]
+do = { move = "~/Downloads/Pictures" }
+
+[[rule]]
+when = "file.created"
+match = ["*.zip", "*.7z", "*.rar", "*.tar", "*.gz", "*.tgz", "*.xz"]
+do = { move = "~/Downloads/Archives" }
+
+[[rule]]
+when = "file.created"
+match = ["*.mp3", "*.flac", "*.wav", "*.m4a", "*.ogg"]
+do = { move = "~/Downloads/Audio" }
+
+[[rule]]
+when = "file.created"
+match = ["*.mp4", "*.mkv", "*.mov", "*.avi", "*.webm"]
+do = { move = "~/Downloads/Video" }
