@@ -71,7 +71,7 @@ ping a day (random ID, version, OS) so the author can count installs.
 The old Python `rwnd` package on PyPI is the first prototype and is **retired**: it only stored hashes, not file contents. The Rust
 `rewind` replaces it. See [docs/PYPI-MIGRATION.md](docs/PYPI-MIGRATION.md).
 
-## What's new in 0.3
+## What's new in 0.4
 
 * **Undo for AI coding agents.** `rewind run -- <agent>` checkpoints your project, runs the agent, then shows exactly what it
   created, changed and deleted (with warnings for mass deletes, touched secrets and gutted files). One command undoes it all.
