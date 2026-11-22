@@ -1,4 +1,4 @@
-//! GitHub-release updater + optional anonymous usage ping.
+﻿//! GitHub-release updater + optional anonymous usage ping.
 //!
 //! Flow: ask the GitHub API for the latest release, compare it with this build's
 //! version, download the `*-setup.exe` asset, verify its SHA-256 against the
@@ -55,13 +55,10 @@ fn agent() -> ureq::Agent {
 
 /// Ok(None) = up to date. Network problems come back as Err and should be ignored silently.
 pub fn check() -> Result<Option<UpdateInfo>, String> {
-<<<<<<< HEAD
     // the updater installs the Windows setup.exe; Linux updates come from the package manager
     if !cfg!(windows) {
         return Ok(None);
     }
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     let url = format!("https://api.github.com/repos/{REPO}/releases/latest");
     let rel: Release = agent()
         .get(&url)
@@ -157,8 +154,4 @@ pub fn ping(s: &mut Settings) {
     if agent().post(STATS_URL).send_json(body).is_ok() {
         s.last_ping = today;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

@@ -1,4 +1,4 @@
-[workspace]
+﻿[workspace]
 resolver = "2"
 members = ["rewind-core", "rewind-cli", "rewind-gui"]
 
@@ -14,10 +14,7 @@ chrono = { version = "0.4", features = ["serde"] }
 uuid = { version = "1", features = ["v4", "serde"] }
 anyhow = "1"
 tokio = { version = "1", features = ["full"] }
-<<<<<<< HEAD
 toml = "0.8"
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 
 [profile.release]
 opt-level = 3

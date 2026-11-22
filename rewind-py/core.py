@@ -1,4 +1,4 @@
-import hashlib
+﻿import hashlib
 import sqlite3
 import os
 import time
@@ -73,8 +73,4 @@ def start_watcher(path):
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
-<<<<<<< HEAD
     observer.join()
-=======
-    observer.join()
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

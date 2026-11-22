@@ -1,4 +1,4 @@
-//! rewind-core: content-addressed file history.
+﻿//! rewind-core: content-addressed file history.
 //!
 //! * SQLite (rusqlite) stores version metadata
 //! * blake3 hashes file content; blobs are stored by hash (deduplicated)
@@ -18,7 +18,6 @@ use std::thread;
 use std::time::Duration;
 use uuid::Uuid;
 
-<<<<<<< HEAD
 mod extplugins;
 mod features;
 mod guard;
@@ -30,13 +29,6 @@ pub use features::*;
 pub use guard::*;
 pub use plugins::*;
 pub use shell::*;
-=======
-mod features;
-mod plugins;
-
-pub use features::*;
-pub use plugins::*;
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 
 const MAX_FILE_BYTES: u64 = 25 * 1024 * 1024;
 const DEBOUNCE_MS: u64 = 350;
@@ -142,7 +134,6 @@ pub struct RewindCore {
     data_dir: Arc<PathBuf>,
     store_dir: Arc<PathBuf>,
     plugins: Arc<Mutex<Vec<Arc<dyn Plugin>>>>,
-<<<<<<< HEAD
     alert_cb: Arc<Mutex<Option<AlertHandler>>>,
     plugin_errors: Arc<Mutex<Vec<String>>>,
 }
@@ -152,11 +143,6 @@ pub struct RewindCore {
 /// * Windows: `%LOCALAPPDATA%\Rewind`
 /// * Linux:   `$XDG_DATA_HOME/rewind` (default `~/.local/share/rewind`)
 /// * macOS:   `~/Library/Application Support/Rewind`
-=======
-}
-
-/// `%LOCALAPPDATA%\Rewind` on Windows, `~/.rewind` elsewhere. Override with REWIND_HOME.
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 pub fn default_data_dir() -> PathBuf {
     if let Some(p) = std::env::var_os("REWIND_HOME") {
         return PathBuf::from(p);
@@ -164,7 +150,6 @@ pub fn default_data_dir() -> PathBuf {
     if let Some(p) = std::env::var_os("LOCALAPPDATA") {
         return PathBuf::from(p).join("Rewind");
     }
-<<<<<<< HEAD
     #[cfg(target_os = "macos")]
     {
         if let Some(h) = home_dir() {
@@ -178,15 +163,10 @@ pub fn default_data_dir() -> PathBuf {
     }
     if let Some(h) = home_dir() {
         return h.join(".local").join("share").join("rewind");
-=======
-    if let Some(p) = std::env::var_os("HOME") {
-        return PathBuf::from(p).join(".rewind");
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     }
     PathBuf::from(".rewind")
 }
 
-<<<<<<< HEAD
 /// The current user's home directory (`USERPROFILE` on Windows, `HOME` elsewhere).
 pub fn home_dir() -> Option<PathBuf> {
     std::env::var_os("USERPROFILE")
@@ -195,8 +175,6 @@ pub fn home_dir() -> Option<PathBuf> {
         .map(PathBuf::from)
 }
 
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 /// Canonical absolute path as a String (Windows `\\?\` prefix stripped).
 pub fn normalize_path(p: impl AsRef<Path>) -> Result<String> {
     let p = p.as_ref();
@@ -259,7 +237,6 @@ impl RewindCore {
              CREATE TABLE IF NOT EXISTS kv (
                  key   TEXT PRIMARY KEY,
                  value TEXT NOT NULL
-<<<<<<< HEAD
              );
              CREATE TABLE IF NOT EXISTS alerts (
                  id           INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -280,8 +257,6 @@ impl RewindCore {
                  started_at TEXT NOT NULL,
                  ended_at   TEXT,
                  status     TEXT NOT NULL DEFAULT 'running'
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
              );",
         )?;
         let core = Self {
@@ -289,16 +264,11 @@ impl RewindCore {
             data_dir: Arc::new(data_dir),
             store_dir: Arc::new(store_dir),
             plugins: Arc::new(Mutex::new(Vec::new())),
-<<<<<<< HEAD
             alert_cb: Arc::new(Mutex::new(None)),
             plugin_errors: Arc::new(Mutex::new(Vec::new())),
         };
         core.register_builtin_plugins();
         let _ = core.reload_external_plugins();
-=======
-        };
-        core.register_builtin_plugins();
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         Ok(core)
     }
 
@@ -366,14 +336,11 @@ impl RewindCore {
                 let l = n.lines().count() as i64;
                 (l, 0, format!("Created: {l} lines ({size_h})"))
             }
-<<<<<<< HEAD
             (_, _, false) => (
                 0,
                 0,
                 format!("Created: binary or non-UTF-8 file ({size_h})"),
             ),
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             _ => (0, 0, format!("Binary or non-UTF-8 change ({size_h})")),
         };
 

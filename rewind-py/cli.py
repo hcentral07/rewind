@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 from pathlib import Path
 from rich.console import Console
 from rich.table import Table
@@ -43,8 +43,4 @@ def main():
         parser.print_help()
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     main()
-=======
-    main()
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

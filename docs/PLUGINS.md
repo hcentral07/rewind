@@ -1,6 +1,5 @@
-# Plugins
+﻿# Plugins
 
-<<<<<<< HEAD
 Everything beyond the bare snapshot engine is a plugin. There are three layers:
 
 1. **Built-in plugins** (Rust, in `rewind-core`): deleted-files, folder-rewind, pins-labels, history-search, compare, agent-guard,
@@ -147,31 +146,3 @@ pub trait Plugin: Send + Sync {
 Events: `VersionSaved`, `FileDeleted`, `FileRenamed`, `FolderRewound`, `Alert`. They are delivered after the database lock is released, so a
 plugin may call back into `core`. On/off state is stored in the `kv` table (`plugin.<id>.enabled`); settings use keys starting `cfg.`.
 Register with `core.register_plugin(Arc::new(MyPlugin))`; add Tauri commands in `rewind-gui/src/main.rs` and a tab in `ui/panels.js` if it needs UI.
-=======
-Everything beyond the bare snapshot engine is a plugin (`rewind-core/src/plugins.rs`).
-
-```rust
-pub trait Plugin: Send + Sync {
-    fn id(&self) -> &'static str;
-    fn name(&self) -> &'static str;
-    fn description(&self) -> &'static str;
-    fn default_enabled(&self) -> bool { true }
-    fn on_event(&self, core: &RewindCore, event: &RewindEvent) {}
-}
-```
-
-Events: `VersionSaved`, `FileDeleted`, `FileRenamed`, `FolderRewound`. They are delivered after the
-database lock is released, so a plugin may call back into `core`.
-
-Built in today: deleted-files, folder-rewind, pins-labels, history-search, compare (feature modules with
-no event hook) and disk-guard (reacts to `VersionSaved`). On/off state is stored in the `kv` table
-(`plugin.<id>.enabled`); plugin settings use keys starting `cfg.`.
-
-## Adding a plugin
-1. Implement `Plugin` and call `core.register_plugin(Arc::new(MyPlugin))` at startup.
-2. Add Tauri commands in `rewind-gui/src/main.rs` if it needs UI, and a tab in `ui/panels.js`.
-
-## Next step: external plugins
-`plugin.toml` rule plugins and JSON-lines program plugins (see ROADMAP.md section 2) can load into the same
-registry: a loader reads the manifest and registers a `Plugin` that forwards events.
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

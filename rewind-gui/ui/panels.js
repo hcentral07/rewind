@@ -1,4 +1,4 @@
-// Rewind tools panel: deleted files, search, versions (pin / compare), folder rewind,
+﻿// Rewind tools panel: deleted files, search, versions (pin / compare), folder rewind,
 // labels, plugins and settings. Plain React.createElement, so it needs no build step.
 (function () {
   'use strict';
@@ -204,7 +204,6 @@
       }));
   }
 
-<<<<<<< HEAD
 
   // ---- Folder history (opened by the right-click menu on a folder) ---------------
   function FolderTab(p) {
@@ -357,15 +356,12 @@
       }));
   }
 
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
   // ---- Plugins and settings -------------------------------------------------------
   function PluginsTab(p) {
     var a = useState(null), guard = a[0], setGuard = a[1];
     var b = useState(null), st = b[0], setSt = b[1];
     var c = useState(''), maxGb = c[0], setMaxGb = c[1];
     var d = useState(false), auto = d[0], setAuto = d[1];
-<<<<<<< HEAD
     var s1 = useState([]), starters = s1[0], setStarters = s1[1];
     var s2 = useState(null), pending = s2[0], setPending = s2[1];
     var s3 = useState(null), shell = s3[0], setShell = s3[1];
@@ -388,9 +384,6 @@
     }
     function load() {
       loadStore();
-=======
-    function load() {
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
       invoke('guard_status').then(setGuard).catch(function () {});
       invoke('get_settings').then(setSt).catch(function () {});
       invoke('cfg_get', { key: 'cfg.disk-guard.max_gb' }).then(function (v) { setMaxGb(v || '5'); });
@@ -412,7 +405,6 @@
       h('div', { className: 'rwx-h', style: { marginTop: 0 } }, 'Plugins'),
       p.plugins.map(function (pl) {
         return h('div', { className: 'rwx-row', key: pl.id },
-<<<<<<< HEAD
           h('div', { className: 'grow' }, h('div', { className: 't' }, pl.name + (pl.builtin ? '' : '  \u00b7  ' + pl.kind + (pl.version ? ' ' + pl.version : ''))),
             h('div', { className: 's', style: { whiteSpace: 'normal' } }, pl.description),
             !pl.builtin && pl.permissions.length ? h('div', { className: 's', style: { whiteSpace: 'normal' } }, 'Can: ' + pl.permissions.join(' \u00b7 ')) : null),
@@ -433,11 +425,6 @@
         h('div', { className: 'rwx-h' }, 'File manager'),
         h('label', { className: 'rwx-row rwx-sw' }, h('span', null, 'Right-click "Rewind: show history" on files and folders' + (shell.details.length ? ' (' + shell.details[0] + ')' : '')),
           h('input', { type: 'checkbox', checked: shell.installed, onChange: function (e) { setShellOn(e.target.checked); } }))) : null,
-=======
-          h('div', { className: 'grow' }, h('div', { className: 't' }, pl.name), h('div', { className: 's', style: { whiteSpace: 'normal' } }, pl.description)),
-          h('input', { type: 'checkbox', checked: pl.enabled, onChange: function () { toggle(pl); } }));
-      }),
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
       guard ? h('div', null,
         h('div', { className: 'rwx-h' }, 'Disk space guard'),
         h('div', { className: 'rwx-meter' + (guard.over ? ' over' : '') }, h('div', { style: { width: pct + '%' } })),
@@ -452,11 +439,7 @@
         h('div', { className: 'rwx-muted' }, 'Pinned versions are never removed.')) : null,
       st ? h('div', null,
         h('div', { className: 'rwx-h' }, 'App settings'),
-<<<<<<< HEAD
         [['autostart', 'Start when I log in (hidden, in the tray)'], ['close_to_tray', 'Closing the window keeps recording in the tray'],
-=======
-        [['autostart', 'Start with Windows (hidden, in the tray)'], ['close_to_tray', 'Closing the window keeps recording in the tray'],
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
          ['auto_update', 'Install updates automatically on start'], ['share_usage', 'Send one anonymous ping a day (helps count users)']].map(function (r) {
           return h('label', { className: 'rwx-row rwx-sw', key: r[0] }, h('span', null, r[1]),
             h('input', { type: 'checkbox', checked: !!st[r[0]], onChange: function (e) {
@@ -469,12 +452,8 @@
   // ---- Shell ------------------------------------------------------------------------
   var TABS = [
     ['deleted', 'Deleted files', 'deleted-files'], ['search', 'Search', 'history-search'], ['versions', 'Versions', null],
-<<<<<<< HEAD
     ['rewind', 'Rewind folder', 'folder-rewind'], ['labels', 'Labels', 'pins-labels'],
     ['agents', 'AI agents', 'agent-guard'], ['guard', 'Protection', 'tripwire'], ['plugins', 'Plugins & settings', null]
-=======
-    ['rewind', 'Rewind folder', 'folder-rewind'], ['labels', 'Labels', 'pins-labels'], ['plugins', 'Plugins & settings', null]
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
   ];
 
   function Panel() {
@@ -487,35 +466,25 @@
     var g = useState({ folder: '', to: '' }), rw = g[0], setRw = g[1];
     var k = useState(false), over = k[0], setOver = k[1];
     var tk = useState(0), tick = tk[0], setTick = tk[1];
-<<<<<<< HEAD
     var fo = useState(''), fpath = fo[0], setFpath = fo[1];
     var al = useState(0), unseen = al[0], setUnseen = al[1];
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 
     function toast(m) { setToast(m); setTimeout(function () { setToast(null); }, 3500); }
     function reloadPlugins() { invoke('list_plugins').then(setPlugins).catch(function () {}); }
     function has(id) { return plugins.some(function (p) { return p.id === id && p.enabled; }); }
     function openVersions(path) { setVpath(path); setTab('versions'); setOpen(true); }
-<<<<<<< HEAD
     function openFolder(path) { setFpath(path); setTab('folder'); setOpen(true); }
     function refreshAlerts() { invoke('list_alerts', { unseenOnly: true }).then(function (l) { setUnseen(l.filter(function (x) { return x.kind === 'tripwire'; }).length); }).catch(function () {}); }
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     function openRewind(folder, to) { setRw({ folder: folder, to: to }); setTab('rewind'); setOpen(true); }
 
     useEffect(function () {
       reloadPlugins();
       var t1 = setInterval(function () {
-<<<<<<< HEAD
         invoke('take_launch_file').then(function (f) {
           if (!f) return;
           invoke('path_is_dir', { path: f }).then(function (isDir) { if (isDir) openFolder(f); else openVersions(f); });
         }).catch(function () {});
         refreshAlerts();
-=======
-        invoke('take_launch_file').then(function (f) { if (f) openVersions(f); }).catch(function () {});
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         invoke('guard_status').then(function (g) { setOver(g.over); }).catch(function () {});
       }, 1500);
       return function () { clearInterval(t1); };
@@ -528,29 +497,19 @@
     }, [open]);
 
     var fab = h('button', { className: 'rwx-fab', onClick: function () { setOpen(true); }, title: 'Deleted files, search, folder rewind, plugins' },
-<<<<<<< HEAD
       (over || unseen > 0) ? h('span', { className: 'dot' }) : null, 'Tools');
     if (!open) return fab;
 
     var shared = { watches: watches, toast: toast, has: has, openVersions: openVersions, openRewind: openRewind, tick: tick, refreshAlerts: refreshAlerts };
-=======
-      over ? h('span', { className: 'dot' }) : null, 'Tools');
-    if (!open) return fab;
-
-    var shared = { watches: watches, toast: toast, has: has, openVersions: openVersions, openRewind: openRewind, tick: tick };
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     var body = null;
     if (tab === 'deleted') body = h(DeletedTab, shared);
     else if (tab === 'search') body = h(SearchTab, shared);
     else if (tab === 'versions') body = h(VersionsTab, Object.assign({ path: vpath }, shared));
     else if (tab === 'rewind') body = h(RewindTab, Object.assign({ key: rw.folder + rw.to, folder: rw.folder, to: rw.to }, shared));
     else if (tab === 'labels') body = h(LabelsTab, shared);
-<<<<<<< HEAD
     else if (tab === 'folder') body = h(FolderTab, Object.assign({ key: fpath, folder: fpath }, shared));
     else if (tab === 'agents') body = h(AgentsTab, shared);
     else if (tab === 'guard') body = h(GuardTab, shared);
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     else body = h(PluginsTab, Object.assign({ plugins: plugins, reloadPlugins: reloadPlugins }, shared));
 
     return h('div', null, fab,
@@ -558,12 +517,8 @@
       h('div', { className: 'rwx-panel' },
         h('div', { className: 'rwx-head' }, h('span', null, 'Rewind tools'), h(Btn, { onClick: function () { setOpen(false); } }, 'Close')),
         over ? h('div', { className: 'rwx-row', style: { margin: '10px 12px 0', borderColor: '#7f2a31' } }, 'History store is over its size limit. See Plugins & settings.') : null,
-<<<<<<< HEAD
         unseen > 0 ? h('div', { className: 'rwx-row', style: { margin: '10px 12px 0', borderColor: '#7f2a31', cursor: 'pointer' }, onClick: function () { setTab('guard'); } }, 'Tripwire: many files changed at once. Click to review and undo.') : null,
         h('div', { className: 'rwx-tabs' }, TABS.filter(function (t) { return !t[2] || has(t[2]); }).concat(tab === 'folder' ? [['folder', 'Folder', null]] : []).map(function (t) {
-=======
-        h('div', { className: 'rwx-tabs' }, TABS.filter(function (t) { return !t[2] || has(t[2]); }).map(function (t) {
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
           return h('button', { key: t[0], className: 'rwx-tab' + (tab === t[0] ? ' on' : ''), onClick: function () { setTab(t[0]); } }, t[1]);
         })),
         h('div', { className: 'rwx-body' }, body)),

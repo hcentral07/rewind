@@ -1,4 +1,4 @@
-/target
+﻿/target
 dist/
 Cargo.lock.bak
 
@@ -13,9 +13,6 @@ __pycache__/
 
 # ui build tooling (built files in rewind-gui/ui ARE committed)
 node_modules/
-<<<<<<< HEAD
 target/
 dist/
 winget-out/
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

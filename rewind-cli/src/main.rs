@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-mod mcp;
+﻿mod mcp;
 
 use anyhow::{bail, Result};
 use chrono::{DateTime, Local};
@@ -7,13 +6,6 @@ use clap::{CommandFactory, Parser, Subcommand};
 use rewind_core::{AgentReport, Alert, PluginInfo, RewindCore};
 use std::io::{IsTerminal, Write};
 use std::path::{Path, PathBuf};
-=======
-use anyhow::{bail, Result};
-use chrono::{DateTime, Local};
-use clap::{Parser, Subcommand};
-use rewind_core::RewindCore;
-use std::path::PathBuf;
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 
 #[derive(Parser)]
 #[command(
@@ -41,17 +33,12 @@ enum Commands {
         #[arg(long)]
         json: bool,
     },
-<<<<<<< HEAD
     /// Friendly history of a file or folder (this is what the right-click menu opens)
     History { path: PathBuf },
     /// Watch a folder and snapshot every change (Ctrl+C to stop)
     Watch { path: PathBuf },
     /// Watch every remembered folder in the background-friendly way (for services)
     WatchAll,
-=======
-    /// Watch a folder and snapshot every change (Ctrl+C to stop)
-    Watch { path: PathBuf },
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
     /// Restore a file to a version number shown by `rewind log`
     Restore { file: PathBuf, version: i64 },
     /// Show what a version changed (default: the newest) against the one before it
@@ -108,7 +95,6 @@ enum Commands {
     },
     /// Diff two versions of a file (numbers from `rewind log`)
     Compare { file: PathBuf, from: i64, to: i64 },
-<<<<<<< HEAD
 
     /// Run a command (an AI coding agent, a script, an installer) and report what it changed
     Run {
@@ -254,8 +240,6 @@ enum ServiceCmd {
         enable: bool,
     },
     Uninstall,
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
 }
 
 fn fmt_time(iso: &str) -> String {
@@ -268,7 +252,6 @@ fn fmt_time(iso: &str) -> String {
         .unwrap_or_else(|_| iso.to_string())
 }
 
-<<<<<<< HEAD
 fn print_alert(a: &Alert) {
     eprintln!("[ALERT] {}: {}", a.title, a.message);
 }
@@ -375,14 +358,6 @@ async fn main() -> Result<()> {
     match cli.command {
         Commands::Completions { .. } => {}
 
-=======
-#[tokio::main]
-async fn main() -> Result<()> {
-    let cli = Cli::parse();
-    let core = RewindCore::open_default()?;
-
-    match cli.command {
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         Commands::Status { json } => {
             let st = core.get_status()?;
             if json {
@@ -404,13 +379,10 @@ async fn main() -> Result<()> {
                     );
                 }
             }
-<<<<<<< HEAD
             let unseen = core.list_alerts(true, 5)?;
             if !unseen.is_empty() {
                 println!("  alerts   : {} unseen - run `rewind alerts`", unseen.len());
             }
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         }
 
         Commands::Log { file, json } => {
@@ -440,7 +412,6 @@ async fn main() -> Result<()> {
             }
         }
 
-<<<<<<< HEAD
         Commands::History { path } => {
             if path.is_dir() {
                 let key = rewind_core::normalize_path(&path)?;
@@ -493,8 +464,6 @@ async fn main() -> Result<()> {
             }
         }
 
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         Commands::Watch { path } => {
             let key = core.add_watch(&path)?;
             println!("watching {key}");
@@ -505,15 +474,11 @@ async fn main() -> Result<()> {
                     v.number, v.path, v.lines_added, v.lines_deleted, v.summary
                 );
             })?;
-<<<<<<< HEAD
             let _sched = core.start_scheduler();
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             tokio::signal::ctrl_c().await?;
             println!("stopped");
         }
 
-<<<<<<< HEAD
         Commands::WatchAll => {
             let mut handles = Vec::new();
             for w in core.list_watches()? {
@@ -534,8 +499,6 @@ async fn main() -> Result<()> {
             tokio::signal::ctrl_c().await?;
         }
 
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
         Commands::Diff { file, version } => {
             let history = core.get_history(&file)?;
             let Some(v) = (match version {
@@ -549,10 +512,6 @@ async fn main() -> Result<()> {
                 match l.kind.as_str() {
                     "add" => println!("+ {}", l.text),
                     "del" => println!("- {}", l.text),
-<<<<<<< HEAD
-=======
-                    "hunk" => println!("  {}", l.text),
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
                     _ => println!("  {}", l.text),
                 }
             }
@@ -573,12 +532,8 @@ async fn main() -> Result<()> {
             folder,
             limit,
         } => {
-<<<<<<< HEAD
             let hits =
                 core.search_history(&text, folder.as_deref().and_then(|p| p.to_str()), limit)?;
-=======
-            let hits = core.search_history(&text, folder.as_deref().and_then(|p| p.to_str()), limit)?;
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
             if hits.is_empty() {
                 println!("nothing found");
             }
@@ -588,15 +543,11 @@ async fn main() -> Result<()> {
                     fmt_time(&h.created_at),
                     h.path,
                     h.line_no,
-<<<<<<< HEAD
                     if h.in_latest {
                         ""
                     } else {
                         "  (no longer in the newest version)"
                     },
-=======
-                    if h.in_latest { "" } else { "  (no longer in the newest version)" },
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
                     h.snippet
                 );
             }
@@ -612,16 +563,12 @@ async fn main() -> Result<()> {
                     println!("no deleted files");
                 }
                 for d in list {
-<<<<<<< HEAD
                     println!(
                         "{}  {}  ({} versions)",
                         fmt_time(&d.deleted_at),
                         d.path,
                         d.versions
                     );
-=======
-                    println!("{}  {}  ({} versions)", fmt_time(&d.deleted_at), d.path, d.versions);
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
                 }
             }
         }
@@ -697,7 +644,6 @@ async fn main() -> Result<()> {
             core.restore_version(v.id)?;
             println!("restored {} to v{version}", v.path);
         }
-<<<<<<< HEAD
 
         // ---- agent protection -------------------------------------------------------
         Commands::Run {
@@ -1062,8 +1008,3 @@ fn service(action: ServiceCmd) -> Result<()> {
 fn service(_action: ServiceCmd) -> Result<()> {
     bail!("on this system, use the Rewind app's \"start with Windows\" setting, or run `rewind watch-all` from a startup task")
 }
-=======
-    }
-    Ok(())
-}
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308

@@ -1,4 +1,4 @@
-[package]
+﻿[package]
 name = "rewind-cli"
 version.workspace = true
 edition.workspace = true
@@ -15,7 +15,4 @@ chrono.workspace = true
 anyhow.workspace = true
 tokio.workspace = true
 clap = { version = "4", features = ["derive"] }
-<<<<<<< HEAD
 clap_complete = "4"
-=======
->>>>>>> 0875c6b1c0901cb68339aa06d3c8834d84d0b308
