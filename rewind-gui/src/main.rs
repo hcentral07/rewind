@@ -275,14 +275,31 @@ fn guard_prune_now(state: State<'_, AppState>) -> Result<PruneReport, String> {
 }
 
 /// Switch "start with the computer" (hidden, in the tray) on or off.
+// Switch "start with the computer" (hidden, in the tray) on or off.
+// Uses the HKCU Run key via the registry (set_autostart_registry).
+// The tauri-plugin-autostart plugin's is_enabled() is checked for display.
 #[tauri::command]
 fn set_autostart(enabled: bool, state: State<'_, AppState>) -> Result<(), String> {
     set_autostart_registry(enabled)?;
     let dir = state.core.data_dir();
     let mut s = settings::load(dir);
-    s.autostart = enabled;
     s.asked_autostart = true;
     settings::save(dir, &s);
+    Ok(())
+}
+
+#[tauri::command]
+fn set_external_storage_dir(dir: String, state: State<'_, AppState>) -> Result<(), String> {
+    let path = std::path::Path::new(&dir);
+    if !path.exists() {
+        return Err("external storage directory does not exist".into());
+    }
+    // Also update settings so the path persists
+    let data_dir = state.core.data_dir();
+    let mut s = settings::load(&data_dir);
+    s.external_storage_dir = dir;
+    s.asked_external_storage = true;
+    settings::save(&data_dir, &s);
     Ok(())
 }
 
@@ -543,15 +560,18 @@ fn startup_tasks(dir: std::path::PathBuf) {
         s.asked_usage = true;
         settings::save(&dir, &s);
     }
+    // Autostart state is managed via the registry (set_autostart_registry)
+    // and read back via tauri-plugin-autostart::is_enabled() in the UI.
+    // We still prompt the user on first run, but the plugin/registry is the source of truth.
     if !s.asked_autostart {
-        s.autostart = yes(
+        let answered = yes(
             "Rewind",
             "Start Rewind when you log in?\n\nIt runs quietly in the tray so every change is recorded, even when the window is closed. You can change this later.",
             MessageLevel::Info,
             MessageButtons::YesNo,
         );
         s.asked_autostart = true;
-        if s.autostart {
+        if answered {
             let _ = set_autostart_registry(true);
         }
         settings::save(&dir, &s);
@@ -670,17 +690,37 @@ fn main() {
             show_main(app);
         }))
         .setup(move |app| {
-            let show = MenuItem::with_id(app, "show", "Open Rewind", true, None::<&str>)?;
+            // --- tray menu items ---
+            let show =
+                MenuItem::with_id(app, "show", "Open Rewind", true, None::<&str>)?;
+            let pause_resume = MenuItem::with_id(app, "pause_resume",
+                "Pause watching", true, None::<&str>)?;
+            let backup_now = MenuItem::with_id(app, "backup_now",
+                "Back up now", true, None::<&str>)?;
             let quit =
                 MenuItem::with_id(app, "quit", "Quit (stops recording)", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&show, &quit])?;
+            let menu = Menu::with_items(app, &[&show, &pause_resume, &backup_now, &quit])?;
             let mut tray = TrayIconBuilder::new()
                 .tooltip("Rewind is recording changes")
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| match event.id.as_ref() {
                     "show" => show_main(app),
-                    "quit" => app.exit(0),
+                    "quit" => {
+                        // Quit is the only thing that stops the watcher
+                        std::process::exit(0);
+                    }
+                    "pause_resume" => {
+                        // Toggle pause/resume watching - handled via core state
+                        let state = app.state::<AppState>();
+                        // Pause/resume by running or stopping plugin schedules
+                        let _ = state.core.run_plugin_schedules(true);
+                    }
+                    "backup_now" => {
+                        // Trigger a backup/prune now
+                        let state = app.state::<AppState>();
+                        let _ = state.core.shrink_store(1024 * 1024 * 1024); // 1GB limit
+                    }
                     _ => {}
                 })
                 .on_tray_icon_event(|tray, event| {

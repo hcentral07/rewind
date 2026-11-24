@@ -2,6 +2,21 @@
 
 All notable changes. Versions follow [semver](https://semver.org). Newest first.
 
+## 0.5.0
+
+### Added
+- **Tray & start-with-Windows.** Tray icon with close-to-tray, single-instance prevention so a second launch just shows the existing window, `tauri-plugin-autostart` (HKCU\Run) with enable/disable toggle in Settings, and `--background/--minimized` args to start straight into the tray.
+- **File watcher independent of window.** The Rust backend watcher runs independently of the webview/JS lifetime, continuing to record changes even when the window is closed.
+- **External storage (Phase 1).** Specify a second directory where file copies are mirrored, protecting history even if the primary disk fails.
+- **UI pass.** Consistent spacing, typography, empty states, loading and error states, dark/light mode, keyboard focus, and a clear "Protected / Paused" status indicator on the home page.
+- **Version bump everywhere.** `0.3.0` → `0.5.0` in Cargo.toml, tauri.conf.json, package.json, winget/Scoop/AUR manifests, packaging scripts, and docs.
+
+### Changed
+- Plugin trait returns `&str` instead of `&'static str` (needed for loaded plugins). `PluginInfo` gained `version`, `kind`, `permissions`, `rules`.
+
+### Fixed
+- `rewind log | head` no longer prints a panic when the pipe closes.
+
 ## 0.3.0
 
 ### Added

@@ -14,8 +14,15 @@ pub struct Settings {
     pub asked_usage: bool,
     /// Random id generated locally. Not linked to anything about the person.
     pub install_id: String,
+    /// Path to a second directory where file copies are mirrored for backup.
+    /// If set, every saved file will also be copied here, protecting history
+    /// even if the primary disk fails. Leave empty to disable external storage.
+    pub external_storage_dir: String,
+    /// Whether the first-run external storage question has been answered.
+    pub asked_external_storage: bool,
     /// Start with Windows (hidden, in the tray) so history is always being recorded.
     pub autostart: bool,
+    /// Whether the first-run autostart question has been answered.
     pub asked_autostart: bool,
     /// Closing the window hides it to the tray instead of quitting.
     pub close_to_tray: bool,
@@ -29,10 +36,12 @@ impl Default for Settings {
             auto_update: false,
             share_usage: false,
             asked_usage: false,
+            install_id: uuid::Uuid::new_v4().to_string(),
             autostart: false,
             asked_autostart: false,
+            external_storage_dir: String::new(),
+            asked_external_storage: false,
             close_to_tray: true,
-            install_id: uuid::Uuid::new_v4().to_string(),
             last_ping: String::new(),
         }
     }

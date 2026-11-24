@@ -33,3 +33,10 @@
 .rwx-meter>div{height:100%;background:#8b7cff}
 .rwx-meter.over>div{background:#f87171}
 .rwx-sw{display:flex;align-items:center;justify-content:space-between;gap:12px}
+/* focus ring for FAB/panel buttons */
+.rwx-btn:focus-visible,
+.rwx-tab:focus-visible,
+.rwx-in:focus-visible { outline: 2px solid #8b7cff; outline-offset: 2px; }
+
+/* optional: toast stack (if panels.js uses .rwx-toast) */
+.rwx-toast[data-stack] + .rwx-toast { margin-top: 8px; }

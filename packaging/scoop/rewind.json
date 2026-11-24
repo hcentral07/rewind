@@ -1,5 +1,5 @@
 {
-    "version": "0.3.0",
+    "version": "0.5.0",
     "description": "Undo for your files, AI agents and ransomware. Command-line time machine for your filesystem.",
     "homepage": "https://github.com/hcentral07/rewind",
     "license": "MIT",

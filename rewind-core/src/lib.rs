@@ -372,6 +372,7 @@ impl RewindCore {
         // release the database lock before plugins run, they may call back into the core
         drop(conn);
         self.emit(&RewindEvent::VersionSaved(version.clone()));
+
         Ok(Some(version))
     }
 

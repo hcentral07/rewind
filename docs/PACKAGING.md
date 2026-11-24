@@ -6,15 +6,15 @@ Getting Rewind into package managers is the cheapest way to get discovered: `win
 
 Manifests live in `packaging/winget/` (id `hcentral07.Rewind`, installer type `nullsoft`, silent switch `/S`).
 
-1. Publish a GitHub release (see RELEASING.md). Check the installer file name, e.g. `Rewind_0.3.0_x64-setup.exe`.
+1. Publish a GitHub release (see RELEASING.md). Check the installer file name, e.g. `Rewind_0.5.0_x64-setup.exe`.
 2. Fill in the version and the installer hash, and write the manifests to `manifests/h/hcentral07/Rewind/<version>/`:
    ```powershell
-   .\scripts\update-winget.ps1 -Version 0.3.0
+   .\scripts\update-winget.ps1 -Version 0.5.0
    ```
 3. Validate and test locally (needs the Windows Package Manager, enable local manifests once with `winget settings --enable LocalManifestFiles`):
    ```powershell
-   winget validate --manifest .\winget-out\manifests\h\hcentral07\Rewind\0.3.0
-   winget install --manifest .\winget-out\manifests\h\hcentral07\Rewind\0.3.0
+   winget validate --manifest .\winget-out\manifests\h\hcentral07\Rewind\0.5.0
+   winget install --manifest .\winget-out\manifests\h\hcentral07\Rewind\0.5.0
    ```
 4. Submit: either `wingetcreate submit` (needs a GitHub token) or fork `microsoft/winget-pkgs`, copy the `manifests/` folder in and open a pull request.
    The first submission takes a few days to review (an unsigned installer is allowed, but SmartScreen warnings are expected).
@@ -41,11 +41,11 @@ Replace `sha256sums=('SKIP')` with the real hash from the release before submitt
 ## Linux install script
 
 `scripts/install.sh` downloads the latest release tarball, verifies its checksum and installs `rewind` to `~/.local/bin`
-(override with `REWIND_BIN_DIR`, pin with `REWIND_VERSION=v0.3.0`).
+(override with `REWIND_BIN_DIR`, pin with `REWIND_VERSION=v0.5.0`).
 
 ## Debian/Ubuntu
 
-The release carries a `.deb` of the desktop app: `sudo apt install ./Rewind_0.3.0_amd64.deb`.
+The release carries a `.deb` of the desktop app: `sudo apt install ./Rewind_0.5.0_amd64.deb`.
 
 ## crates.io (optional)
 

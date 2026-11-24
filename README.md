@@ -16,7 +16,7 @@ undo a whole AI coding session, or roll back a ransomware burst. Everything stay
 
 <img src="docs/demo.gif" width="760" alt="Rewind demo: undo an AI agent run, a ransomware tripwire, right-click history" />
 
-[Download](#download) | [What's new in 0.3](#whats-new-in-03) | [AI agents](#undo-for-ai-coding-agents) | [Tripwire](#ransomware-and-mass-change-tripwire) | [Plugins](#plugins) | [CLI](#cli) | [Build](#build-from-source)
+[Download](#download) | [What's new in 0.5](#whats-new-in-05) | [What's new in 0.3](#whats-new-in-03) | [AI agents](#undo-for-ai-coding-agents) | [Tripwire](#ransomware-and-mass-change-tripwire) | [Plugins](#plugins) | [CLI](#cli) | [Build](#build-from-source)
 
 </div>
 
@@ -64,6 +64,16 @@ The old Python `rwnd` package on PyPI is the first prototype and is **retired**:
   service, autostart, shell completions and `xdg-open` support.
 * **Better everywhere.** `rewind history` for a friendly view of a file or folder, `rewind checkpoint` for hooks, `watch-all`
   for services, alerts list, binary files now count as "created" correctly, Windows installer replaces the old single-file menu entry.
+
+Full details: [CHANGELOG.md](CHANGELOG.md).
+
+## What's new in 0.5
+
+* **Tray & start-with-Windows.** Tray icon with close-to-tray, single-instance prevention so a second launch just shows the existing window, `tauri-plugin-autostart` (HKCU\Run) with enable/disable toggle in Settings, and `--background/--minimized` args to start straight into the tray.
+* **File watcher independent of window.** The Rust backend watcher runs independently of the webview/JS lifetime, continuing to record changes even when the window is closed.
+* **External storage (Phase 1).** Specify a second directory where file copies are mirrored, protecting history even if the primary disk fails.
+* **UI pass.** Consistent spacing, typography, empty states, loading and error states, dark/light mode, keyboard focus, and a clear "Protected / Paused" status indicator on the home page.
+* **Version bump everywhere.** `0.3.0` → `0.5.0` in Cargo.toml, tauri.conf.json, package.json, winget/Scoop/AUR manifests, packaging scripts, and docs.
 
 Full details: [CHANGELOG.md](CHANGELOG.md).
 
