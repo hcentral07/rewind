@@ -1,6 +1,6 @@
 <#
 Fills the winget manifests for a released version.
-  .\scripts\update-winget.ps1 -Version 0.5.0
+  .\scripts\update-winget.ps1 -Version 0.5.1
 Downloads the installer from the GitHub release, computes its SHA-256 and writes
 winget-out\manifests\h\hcentral07\Rewind\<version>\ ready for `winget validate` and a PR to microsoft/winget-pkgs.
 #>
